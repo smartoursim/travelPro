@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  redis:
+    host: localhost
+    port: 6370 # Different port for testing
+
+logging:
+  level:
+    com.travelpro: DEBUG
+    org.springframework.security: DEBUG
+
+app:
+  jwt:
+    secret: testSecretKey
+    expiration: 86400000
