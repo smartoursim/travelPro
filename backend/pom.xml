@@ -42,7 +42,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- Database -->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -50,22 +55,24 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- JWT -->
+        <!-- API -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.12.3</version>
+            <version>0.11.5</version>
         </dependency>
+        <!-- Runtime implementation -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.12.3</version>
+            <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- Jackson JSON support -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>0.12.3</version>
+            <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -132,10 +139,18 @@
                     <source>17</source>
                     <target>17</target>
                     <annotationProcessorPaths>
+                        <!-- MapStruct -->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>1.5.5.Final</version>
+                        </path>
+
+                        <!-- Lombok -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.38</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
