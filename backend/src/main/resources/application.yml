@@ -6,11 +6,15 @@ server:
 spring:
   application:
     name: travelpro-backend
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   
   datasource:
     url: jdbc:postgresql://localhost:5432/travelpro
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:password}
+    username: ${DB_USERNAME:pankajray}
+    password: ${DB_PASSWORD:travelpro_ap_2025}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 20
@@ -33,27 +37,31 @@ spring:
         order_inserts: true
         order_updates: true
 
-  redis:
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
-    password: ${REDIS_PASSWORD:}
-    timeout: 2000ms
-    lettuce:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
+  # Redis configuration disabled to avoid connection errors
+  # redis:
+  #   host: ${REDIS_HOST:localhost}
+  #   port: ${REDIS_PORT:6379}
+  #   password: ${REDIS_PASSWORD:}
+  #   timeout: 2000ms
+  #   lettuce:
+  #     pool:
+  #       max-active: 8
+  #       max-idle: 8
+  #       min-idle: 0
 
   cache:
-    type: redis
-    redis:
-      time-to-live: 600000
+    type: none  # Disabled Redis cache to avoid connection errors
 
+app:
+  jwt:
+    secret: ${JWT_SECRET:mySecretKey123456789012345678901234567890}
+    expiration: ${JWT_EXPIRATION:86400000} # 24 hours
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${JWT_ISSUER_URI:http://localhost:8080}
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+      allowed-methods: ${CORS_ALLOWED_METHODS:GET,POST,PUT,DELETE,OPTIONS}
+      allowed-headers: ${CORS_ALLOWED_HEADERS:*}
+      allow-credentials: ${CORS_ALLOW_CREDENTIALS:true}
 
 logging:
   level:
@@ -70,13 +78,7 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    redis:
+      enabled: false
 
-app:
-  jwt:
-    secret: ${JWT_SECRET:mySecretKey}
-    expiration: 86400000 # 24 hours
-  cors:
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
-    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-    allowed-headers: "*"
-    allow-credentials: true

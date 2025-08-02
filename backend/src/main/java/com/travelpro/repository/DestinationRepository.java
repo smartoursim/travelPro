@@ -43,4 +43,6 @@ public interface DestinationRepository extends JpaRepository<Destination, UUID> 
 
     @Query("SELECT DISTINCT d.category FROM Destination d WHERE d.isActive = true ORDER BY d.category")
     List<String> findAllCategories();
+    
+    boolean existsBySlug(String slug);
 }

@@ -21,15 +21,25 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         
-        log.error("Unauthorized error: {}", authException.getMessage());
+        log.warn("Unauthorized access attempt: {} - {}", request.getServletPath(), authException.getMessage());
         
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
+        String authHeader = request.getHeader("Authorization");
+        String message = "Authentication required";
+        
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            message = "Invalid or expired token";
+        } else if (authHeader != null) {
+            message = "Invalid authorization header format. Use 'Bearer <token>'";
+        }
+
         final Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", java.time.LocalDateTime.now().toString());
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
+        body.put("message", message);
         body.put("path", request.getServletPath());
 
         final ObjectMapper mapper = new ObjectMapper();

@@ -5,6 +5,7 @@ import com.travelpro.dto.BlogPostDto;
 import com.travelpro.entity.BlogCategory;
 import com.travelpro.entity.BlogPost;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BlogMapper {
 
+    @Mapping(source = "author.firstName", target = "authorName", defaultValue = "Unknown")
+    @Mapping(source = "category", target = "category")
     BlogPostDto toDto(BlogPost blogPost);
     
     List<BlogPostDto> toPostDtoList(List<BlogPost> blogPosts);
